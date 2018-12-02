@@ -6,7 +6,7 @@ puts "part 1 answer: "
 puts sum
 
 # second part
-# two loops through
+# keep looping until we get a repeat
 repeat = nil
 hash = {} of Int32 => Int32
 init = 0
