@@ -28,14 +28,17 @@ part1Hash = input.reduce({} of String => Guard) do |acc, line|
   acc
 end
 
+# alias totals = Tuple(Int32, Tuple(String, Int32), String)
 time2 = Time.now
-shittiest_guard = (part1Hash.values.map &.totals).sort_by { |tup| tup[0] }.reverse.first
+# use total minutes sleeping as sort order
+shittiest_guard = (part1Hash.values.map &.totals).sort { |a, b| -(a[0] <=> b[0]) }.first
 puts shittiest_guard
 puts shittiest_guard[2].to_i * shittiest_guard[1][0].to_i
 puts "completed 1 in #{time2 - time1}"
 
 time1 = Time.now
-shittiest_guard = (part1Hash.values.map &.totals).sort_by { |tup| tup[1][1] }.reverse.first
+# use most often minute slept as sort order
+shittiest_guard = (part1Hash.values.map &.totals).sort { |a, b| -(a[1][1] <=> b[1][1]) }.first
 time2 = Time.now
 puts shittiest_guard
 puts shittiest_guard[1][0].to_i * shittiest_guard[2].to_i

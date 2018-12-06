@@ -6,15 +6,15 @@ class Guard
   @current_sleep : Int32
 
   # what @hash looks like
-  {
-    "dates" => {
-      "2012-12-12" => 0,
-    },
-    "repeated_minutes" => {
-      "01" => 1,
-      "02" => 1,
-    },
-  }
+  # {
+  #   "dates" => {
+  #     "2012-12-12" => 0,
+  #   },
+  #   "repeated_minutes" => {
+  #     "01" => 1,
+  #     "02" => 1,
+  #   },
+  # }
   @result_hash : Hash(String, Hash(String, Int32))
 
   def initialize(event : NamedTuple(name: Action, event_data: String), time : Time)
@@ -58,10 +58,12 @@ class Guard
     total_time = @result_hash["dates"].values.sort.reverse.first
     minutes_array = @result_hash["repeated_minutes"].to_a
 
+    # look who's doing data clean up
     if minutes_array.empty?
       longest_minute = {"0", 0}
     else
-      longest_minute = minutes_array.sort_by { |arr| arr[1] }.reverse.first
+      # Tuple(String, Int32) The Minute, The count
+      longest_minute = minutes_array.sort { |a, b| -(a[1] <=> b[1]) }.first
     end
 
     {total_time, longest_minute, @id}
